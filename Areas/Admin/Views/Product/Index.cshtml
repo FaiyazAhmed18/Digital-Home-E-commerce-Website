@@ -1,0 +1,91 @@
+﻿@using StataIT.Models;
+@model IEnumerable<Products>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br /><br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Product List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add New Product</a>
+    </div>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-lg-2">
+            <input type="number" class="form-control" name="lowAmount" />
+        </div>
+        <div class="col-lg-2">
+            <input type="number" class="form-control" name="largeAmount" />
+        </div>
+        <div class="col-lg-2">
+            <input type="submit" value="Search" class="btn btn-success" />
+        </div>
+        <div class="col-3"></div>
+    </div>
+</form>
+<br />
+<div>
+    <table class="table table-striped border">
+        <thead>
+            <tr class="table-info">
+                <th>
+                    @Html.DisplayNameFor(c => c.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(c => c.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(c => c.ProductColor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(c => c.IsAvailable)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(c => c.ProductTypeId)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>@item.ProductColor</td>
+                    <td>@item.IsAvailable</td>
+                    <td>@item.ProductTypes.ProductType</td>
+                    <td>
+                        <partial name="_ButtonPartial" model="@item.Id" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        
+    </table>
+</div>
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    $('#myTable').DateTable();
+        //})
+        let table = new DataTable('#myTable');
+        $(function () {
+            var save = '@TempData["Save"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+        })
+
+    </script>
+}
